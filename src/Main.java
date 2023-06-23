@@ -1,22 +1,25 @@
+import models.*;
+
 import java.sql.Time;
 import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
+
         // Création du cinéma
         Cinema cinema = new Cinema("Cineplex", "123 Rue de Cinema");
-        System.out.println("Cinema created: " + cinema);
+        System.out.println("Cinema created: " + cinema.getName());
 
-        // Création des place
-        List<String> places = new ArrayList<>();
+        // Création des places
+        List<String> placeList = new ArrayList<>();
         String[] rows = {"A", "B", "C", "D", "E", "F", "G"};
         for(String row : rows) {
             for(int i = 1; i <= 10; i++) {
-                places.add(row + i);
+                placeList.add(row + i);
             }
         }
-        Salle salle1 = new Salle(70, places);
-        Salle salle2 = new Salle(70, places);
+        Salle salle1 = new Salle(70, placeList);
+        Salle salle2 = new Salle(70, placeList);
         System.out.println("Salles created: " + salle1 + ", " + salle2);
 
         // Ajout des salles au cinéma
@@ -27,7 +30,7 @@ public class Main {
         // Création des films
         Film film1 = new Film("Titanic", "Un bateau qui coule", new Date());
         Film film2 = new Film("Inception", "Un voyage dans les rêves", new Date());
-        System.out.println("Films created: " + film1 + ", " + film2);
+        System.out.println("Films created: " + film1.getName() + ", " + film2.getName());
 
         // Ajout des films au cinéma
         cinema.addFilm(film1);
@@ -50,8 +53,8 @@ public class Main {
         System.out.println("Seances created: " + seance1 + ", " + seance2);
 
         // Programmation des séances au cinéma
-        cinema.scheduleSeance(film1, new Date(), new Time(), salle1);
-        cinema.scheduleSeance(film2, new Date(), new Time(), salle2);
+        cinema.scheduleSeance(film1, new Date(), new Time(19, 55, 00), salle1);
+        cinema.scheduleSeance(film2, new Date(), new Time(20, 30, 00), salle2);
         System.out.println("Seances scheduled in the cinema.");
 
         // Récupération de la liste de films du cinéma
@@ -60,11 +63,11 @@ public class Main {
 
         // Récupération de la liste des séances pour un film
         List<Seance> seancesForFilm1 = cinema.getAllSeancesForFilmOnDate(film1, new Date());
-        System.out.println("List of seances for film " + film1 + ": " + seancesForFilm1);
+        System.out.println("List of seances for film " + film1.getName() + ": " + seancesForFilm1);
 
         // Création d'un client
         Client client1 = new Client("John Doe", "john.doe@example.com");
-        System.out.println("Client created: " + client1);
+        System.out.println("Client created: " + client1.getName());
 
         // Réservation par le client
         String place = "A1";
@@ -77,13 +80,14 @@ public class Main {
 
         // Bonus: Création d'une place et vérification de sa disponibilité
         List<Place> places = new ArrayList<>();
-        String[] rows = {"A", "B", "C", "D", "E", "F", "G"};
-        for(String row : rows) {
-            for(int i = 1; i <= 10; i++) {
+        rows = new String[]{"A", "B", "C", "D", "E", "F", "G"};
+        for (String row : rows) {
+            for (int i = 1; i <= 10; i++) {
                 places.add(new Place(row + i));
             }
         }
 
+        Place place1 = places.get(0); // Assuming you want to use the first place in the list
         place1.isOccupied.put(seance1, true);
         System.out.println("Place created and set as occupied for the seance: " + place1);
 
@@ -92,6 +96,7 @@ public class Main {
         } else {
             System.out.println("The place is free for this seance.");
         }
+
 
     }
 }
